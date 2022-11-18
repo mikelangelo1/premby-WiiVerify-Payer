@@ -1,0 +1,150 @@
+[
+    {
+        "country": "Australia",
+        "currency_code": "AUD"
+    },
+    {
+        "country": "Austria",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Belgium",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Bulgaria",
+        "currency_code": "BGN"
+    },
+    {
+        "country": "Canada",
+        "currency_code": "CAD"
+    },
+    {
+        "country": "Cyprus",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Czech Republic",
+        "currency_code": "CZK"
+    },
+    {
+        "country": "Denmark",
+        "currency_code": "DKK"
+    },
+    {
+        "country": "Estonia",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Finland",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "France",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Germany",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Greece",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Hong Kong",
+        "currency_code": "HKD"
+    },
+    {
+        "country": "Hungary",
+        "currency_code": "HUF"
+    },
+    {
+        "country": "India",
+        "currency_code": "INR"
+    },
+    {
+        "country": "Ireland",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Japan",
+        "currency_code": "JPY"
+    },
+    {
+        "country": "Latvia",
+        "currency_code": "LVL"
+    },
+    {
+        "country": "Luxembourg",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Malaysia",
+        "currency_code": "MYR"
+    },
+    {
+        "country": "Malta",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Mexico",
+        "currency_code": "MXN"
+    },
+    {
+        "country": "Netherlands",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "New Zealand",
+        "currency_code": "NZD"
+    },
+    {
+        "country": "Norway",
+        "currency_code": "NOK"
+    },
+    {
+        "country": "Poland",
+        "currency_code": "PLN"
+    },
+    {
+        "country": "Portugal",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Romania",
+        "currency_code": "RON"
+    },
+    {
+        "country": "Singapore",
+        "currency_code": "SGD"
+    },
+    {
+        "country": "Slovakia",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Slovenia",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Spain",
+        "currency_code": "EUR"
+    },
+    {
+        "country": "Sweden",
+        "currency_code": "SEK"
+    },
+    {
+        "country": "Switzerland",
+        "currency_code": "CHF"
+    },
+    {
+        "country": "United Arab Emirates",
+        "currency_code": "AED"
+    },
+    {
+        "country": "United Kingdom",
+        "currency_code": "GBP"
+    }
+]
