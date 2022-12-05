@@ -291,7 +291,7 @@ import verifiedCardsImage from "../../../assets/images/vbvmcsc.png";
 
 import CardForm from '../../../components/CardForm'
 
-const BASE_URL = "https://swift-pay.herokuapp.com";
+const BASE_URL = "https://swift-pay.onrender.com/";
 
 const getPaymentDetails = async (options) => {
   const paymentId = options?.paymentId;
