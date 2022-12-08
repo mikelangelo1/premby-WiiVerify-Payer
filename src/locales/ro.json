@@ -4,6 +4,7 @@
   "full_name": "Plătește",
   "first_name": "Prenumele de pe card",
   "last_name": "Numele pe card",
+  "card_input": "Card number",
   "email": "Email",
   "address_line": "Adresa",
   "zip_code": "Cod poștal",

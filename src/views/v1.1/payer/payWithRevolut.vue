@@ -23,39 +23,105 @@
               <div v-if="loadingDetails">...Loading Payment details</div>
               <!--end::Link-->
             </div>
-            <div ref="cardElementRef"></div>
-            <div style="display: flex; justify-content: space-between">
-              <p class="errorMessage" v-if="cardErrorMessage.length > 0">
-                {{ cardErrorMessage[0].invalidCard }}
-              </p>
-              <p
-                style="
-                  display: flex;
-                  justify-content: flex-end;
-                  align-items: flex-end;
-                "
-                class="errorMessage"
-                v-if="cardErrorMessage.length > 1"
-              >
-                {{ cardErrorMessage[1].invalidExpiryDate }}
-              </p>
-              <p
-                class="errorMessage"
-                v-if="
-                  cardErrorMessage.length > 0 &&
-                  cardErrorMessage[0].invalidExpiryDate
-                "
-              >
-                {{ cardErrorMessage[0].invalidExpiryDate }}
-              </p>
-            </div>
+          
             <div class="card-input">
+              <label class="card-input__label">{{ $t("Card Number") }}</label>
+              <ValidationProvider rules="cardNumber:16" v-slot="{ errors }">
+                <input
+                  :tabindex="1"
+                  type="number"
+                  name="card-input"
+                  class="card-input__input"
+                  placeholder="2344 2334 5567 2334"
+                  v-model="formValue.cardNumber.value"
+                  autocomplete="off"
+                  required
+                />
+                <span class="errorMessage">{{ errors[0] }}</span>
+              </ValidationProvider>
+              
+              <div class="card-form__row">
+              <div class="card-form__col -cvv">
+                <div class="card-input">
+                  <label  class="card-input__label">{{
+                    $t("Expiry month")
+                  }}</label>
+                  <ValidationProvider rules="expiryMonth:2" v-slot="{ errors }">
+                    <input
+                      :tabindex="3"
+                      type="text"
+                      name="expiry month"
+                      class="card-input__input"
+                      placeholder="09"
+                      maxlength="2"
+                      :class="{ 'has-error': formValue.expiryMonth.errorMessage }"
+                      v-model="formValue.expiryMonth.value"
+                      autocomplete="off"
+                      required
+                    />
+                    <span class="errorMessage">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+              </div>
+
+              <div class="card-form__col -postal-code">
+                <div class="card-input">
+                  <label  class="card-input__label">{{
+                    $t("Expiry Year")
+                  }}</label>
+                  <ValidationProvider rules="expiryYear:2" v-slot="{ errors }">
+                    <input
+                      :tabindex="4"
+                      type="text"
+                      name="expiry year"
+                      placeholder="26"
+                      class="card-input__input"
+                      maxlength="2"
+                      v-model="formValue.expiryYear.value"
+                      autocomplete="off"
+                      :class="{
+                        'has-error': formValue.expiryYear.errorMessage,
+                      }"
+                      required
+                    />
+                    <span class="errorMessage">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+              </div>
+              
+              <div class="card-form__col -postal-code">
+                <div class="card-input">
+                  <label  class="card-input__label">{{
+                    $t("CVV")
+                  }}</label>
+                  <ValidationProvider rules="cardCvv:3" v-slot="{ errors }">
+                    <input
+                      :tabindex="4"
+                      type="number"
+                      name="cardCvv"
+                      placeholder="234"
+                      class="card-input__input"
+                      maxlength="3"
+                      v-model="formValue.cardCvv.value"
+                      autocomplete="off"
+                      :class="{
+                        'has-error': formValue.cardCvv.errorMessage,
+                      }"
+                      required
+                    />
+                    <span class="errorMessage">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+              </div>
+            </div>
+
               <label class="card-input__label">{{ $t("full_name") }}</label>
               <ValidationProvider rules="name:2" v-slot="{ errors }">
                 <input
                   :tabindex="1"
                   type="text"
                   name="fullName"
+                  placeholder="John Doe"
                   class="card-input__input"
                   v-model="formValue.fullName.value"
                   autocomplete="off"
@@ -77,54 +143,6 @@
                 />
                 <span class="errorMessage">{{ errors[0] }}</span>
               </ValidationProvider>
-            </div>
-
-            <div class="card-form__row">
-              <div class="card-form__col -cvv">
-                <div class="card-input">
-                  <label for="cardCvv" class="card-input__label">{{
-                    $t("address_line")
-                  }}</label>
-                  <ValidationProvider rules="address:10" v-slot="{ errors }">
-                    <input
-                      :tabindex="3"
-                      type="text"
-                      name="address"
-                      class="card-input__input"
-                      maxlength="40"
-                      :class="{ 'has-error': formValue.address.errorMessage }"
-                      v-model="formValue.address.value"
-                      autocomplete="off"
-                      required
-                    />
-                    <span class="errorMessage">{{ errors[0] }}</span>
-                  </ValidationProvider>
-                </div>
-              </div>
-
-              <div class="card-form__col -postal-code">
-                <div class="card-input">
-                  <label for="cardCvv" class="card-input__label">{{
-                    $t("zip_code")
-                  }}</label>
-                  <ValidationProvider rules="postalCode:5" v-slot="{ errors }">
-                    <input
-                      :tabindex="4"
-                      type="text"
-                      name="postalCode"
-                      class="card-input__input"
-                      maxlength="10"
-                      v-model="formValue.postalCode.value"
-                      autocomplete="off"
-                      :class="{
-                        'has-error': formValue.postalCode.errorMessage,
-                      }"
-                      required
-                    />
-                    <span class="errorMessage">{{ errors[0] }}</span>
-                  </ValidationProvider>
-                </div>
-              </div>
             </div>
 
             <div class="form-check form-switch">
@@ -280,15 +298,41 @@ extend("email", {
   message: "* Enter a valid email address",
 });
 
-extend("postalCode", {
+extend("expiryYear", {
   validate(value, { min }) {
-    const postalCodeLength = value.length < min;
-    return !postalCodeLength;
+    const expiryYearLength = value.length < min;
+    return !expiryYearLength;
   },
   params: ["min"],
-  message: "* Enter a valid zip code",
+  message: "* Enter a valid expiry year",
 });
 
+extend("expiryMonth", {
+  validate(value, { min }) {
+    const expirtyMonthLength = value.length < min;
+    return !expirtyMonthLength;
+  },
+  params: ["min"],
+  message: "* Enter a valid expiry month",
+});
+
+extend("cardCvv", {
+  validate(value, { min }) {
+    const cardCvvLength = value.length < min;
+    return !cardCvvLength;
+  },
+  params: ["min"],
+  message: "* Enter a valid cvv",
+});
+
+extend("cardNumber", {
+  validate(value, { min }) {
+    const CardNumberLength = value.length < min;
+    return !CardNumberLength;
+  },
+  params: ["min"],
+  message: "* Enter a valid card number",
+});
 export default {
   name: "newpaylink",
   components: {
@@ -322,6 +366,30 @@ export default {
         },
         fullName: {
           value: "",
+          errorMessage: undefined,
+          errors: [],
+          valid: false,
+        },
+        cardNumber: {
+          value: undefined,
+          errorMessage: undefined,
+          errors: [],
+          valid: false,
+        },
+       expiryMonth: {
+          value: undefined,
+          errorMessage: undefined,
+          errors: [],
+          valid: false,
+        },
+        expiryYear: {
+          value: undefined,
+          errorMessage: undefined,
+          errors: [],
+          valid: false,
+        },
+        cardCvv: {
+          value: undefined,
           errorMessage: undefined,
           errors: [],
           valid: false,
@@ -383,12 +451,8 @@ export default {
       await this.getPaymentIntent(instanceId);
     }
 
-    this.getRevolutWidget();
   },
   methods: {
-    trigger: function () {
-      this.$refs.sendClick.click();
-    },
 
     async getPaymentIntent(sccode) {
       let payload = {
@@ -443,135 +507,7 @@ export default {
         this.termsAgreed
       );
     },
-    async callCaptcha() {
-      // captcha
-      const recaptcha = await load("6Lf0Y90eAAAAABdwhXJzYka0oWOTmwWsarI-tpqC");
-      const token = await recaptcha.execute("submit");
-      return token;
-    },
 
-    async getRevolutWidget() {
-      RevolutCheckout(this.revolutPublicOrderId, "sandbox").then((RC) => {
-        const paymentId = this.sccode?.replace("sccode=", "");
-
-        const countryCode = this.countryCode;
-        const regionCode = this.regionCode;
-        const city = this.city;
-        const cardErrors = this.cardErrors;
-        const errors = this.errors;
-
-        const router = this.$router;
-        const swal = this.$swal;
-        const _this = this;
-
-        const newPayerUrl = "v1.1/payer/new/";
-
-        var form = document.querySelector("form");
-        const instance = RC.createCardField({
-          target: this.$refs.cardElementRef,
-          hidePostcodeField: true,
-          styles: {
-            default: {
-              color: "#555",
-              "::placeholder": {
-                color: "#1a3b5d",
-                fontWeight: "600",
-              },
-            },
-            autofilled: {
-              color: "#000",
-            },
-          },
-          classes: {
-            default: "card-input__input",
-            focused: "rc-card-field--focused",
-            invalid: "rc-card-field--invalid",
-            empty: "rc-card-field--empty",
-            autofilled: "rc-card-field--autofilled",
-            completed: "rc-card-field--completed",
-          },
-          onValidation(messages) {
-            let errors;
-            errors = messages;
-            _this.cardErrors = errors;
-          },
-          onSuccess() {
-            router.push({
-              name: "SuccessPage",
-              query: {
-                orderId: paymentId,
-              },
-            });
-          },
-          onError(error) {
-            console.log(error);
-            swal.fire({
-              title: "An error occured",
-              icon: "error",
-              buttonsStyling: false,
-              confirmButtonText: "Okay",
-              customClass: {
-                confirmButton: "btn fw-bold btn-danger",
-              },
-            });
-            //
-            // router.push({
-            //   name: "SuccessPage",
-            //   query: {
-            //     orderId: paymentId,
-            //   },
-            // });
-          },
-          onCancel() {
-            // renewOrder(order.id);
-          },
-        });
-
-        form.addEventListener("submit", function (event) {
-          // Prevent browser form submission. You need to submit card details first.
-          event.preventDefault();
-
-          const data = new FormData(form);
-
-          const email = data.get("email");
-          const address = data.get("address");
-          const name = data.get("name");
-          const postalCode = data.get("postalCode");
-
-          const newPayer = {
-            email: email,
-            address: address,
-            name: name,
-          };
-
-          instance.submit({
-            name: data.get("name"),
-            email: data.get("email"),
-            savePaymentMethodFor: "customer",
-            billingAddress: {
-              countryCode: countryCode,
-              region: regionCode,
-              city: city,
-              streetLine1: data.get("address"),
-              postcode: data.get("postalCode"),
-            },
-          });
-
-          const payerSignUp = axios
-            .post(newPayerUrl, newPayer)
-            .then((response) => {
-              console.log(response);
-            })
-            .catch((error) => {
-              console.log("error", error);
-            });
-
-          console.log("payerSignUp", payerSignUp);
-        });
-
-        // return instance;
-      });
-    },
     getExpiryDate(date) {
       if (!date) {
         return;
